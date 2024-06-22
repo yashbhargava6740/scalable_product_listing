@@ -11,7 +11,6 @@ export const protect: express.RequestHandler = asyncHandler(
     next: express.NextFunction
   ) => {
     let token;
-
     if (req.cookies.jwt) {
       try {
         token = req.cookies.jwt;
