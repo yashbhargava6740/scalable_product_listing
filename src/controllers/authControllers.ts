@@ -8,10 +8,10 @@ export const login = async (req: Request, res: Response) => {
   const { email, password, role } = req.body;
 
   // Input validation
-  if (!email || !password || !login) {
+  if (!email || !password || !role) {
     return res.status(400).json({ message: "Email, password and role are required" });
   }
-  
+
   try {
     let validUser: UserOrAdmin | null = null;
     if (role === "user") {
