@@ -8,10 +8,10 @@ export const login = async (req: Request, res: Response) => {
   const { email, password, role } = req.body;
 
   // Input validation
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" });
+  if (!email || !password || !login) {
+    return res.status(400).json({ message: "Email, password and role are required" });
   }
-
+  
   try {
     let validUser: UserOrAdmin | null = null;
     if (role === "user") {
@@ -99,7 +99,6 @@ export const register = async (req:Request, res:Response) => {
             }
         });
     }    
-    // const dbUser = role === "user" ? prismaClient.user.findUnique({where: {email}}) : prismaClient.admin.findUnique({where: {email}});
     const {id, name: dbName, email: dbEmail} = dbUser;
     res.status(201).json({ message: "User registered successfully", data : {id, name:dbName, email:dbEmail}});
   } catch (error) {
