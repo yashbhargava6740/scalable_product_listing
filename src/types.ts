@@ -1,2 +1,2 @@
-import { Admin, User } from "@prisma/client";
+import type { Admin, User } from "@prisma/client";
 export type UserOrAdmin = User | Admin;

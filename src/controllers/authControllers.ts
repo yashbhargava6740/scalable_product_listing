@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { UserOrAdmin } from "../types";
 import JWTService from "../services/jwt";
-import { User } from "@prisma/client";
 require("dotenv").config();
 export const login = async (req: Request, res: Response) => {
   const { email, password, role } = req.body;
