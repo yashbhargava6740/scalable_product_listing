@@ -20,7 +20,6 @@ CREATE TABLE "Admin" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-
     CONSTRAINT "Admin_pkey" PRIMARY KEY ("id")
 );
 
