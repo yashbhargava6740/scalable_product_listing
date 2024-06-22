@@ -1,7 +1,6 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 import JWTService from "../services/jwt";
-import { prismaClient } from "../clients/db/PrismaClient";
 
 require("dotenv").config();
 export const protect: express.RequestHandler = asyncHandler(
@@ -11,11 +10,13 @@ export const protect: express.RequestHandler = asyncHandler(
     next: express.NextFunction
   ) => {
     let token;
+    console.log(req.cookies);
     if (req.cookies.jwt) {
       try {
         token = req.cookies.jwt;
         const decoded = JWTService.decodeToken(token);
         req.body.role = decoded.role;
+        req.body.id = decoded.id;
         next();
       } catch {
         res.status(500);

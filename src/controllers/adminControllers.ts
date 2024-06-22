@@ -6,16 +6,19 @@ export const addProduct = async (req: Request, res: Response) => {
     if (!name || !price || !description || !owner) {
       return res.status(400).json({ message: "Please provide all fields" });
     }
+    if (!req.body.id) {
+      res.status(401).json({ message: "Not authenticated" });
+    }
+
     const dbProduct = await prismaClient.product.create({
       data: {
         title: name,
         price,
         description,
-        owner,
+        owner: { connect: { id: req.body.id } },
         color,
       },
     });
-    console.log(dbProduct);
     if (dbProduct) {
       return res.status(201).json(dbProduct);
     } else {
