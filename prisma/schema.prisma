@@ -25,13 +25,20 @@ model Product {
   ownerId Int
 }
 
-model Admin {
+  model Admin {
+    id Int @id @default(autoincrement()) 
+    createdAt DateTime @default(now())
+    email String @unique
+    password String 
+    name String
+    products Product[]
+  }
+
+model User {
   id Int @id @default(autoincrement()) 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   email String @unique
   password String 
   name String
-  products Product[]
 }
 
