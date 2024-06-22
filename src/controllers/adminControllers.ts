@@ -29,3 +29,25 @@ export const addProduct = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Server Error" });
   }
 };
+
+export const removeProduct = async(req:Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: "Please provide all fields" });
+    }
+    const dbProduct = await prismaClient.product.delete({
+      where: {
+        id : parseInt(id),
+      },
+    });
+    if (dbProduct) {
+      return res.status(204).json(dbProduct);
+    } else {
+      return res.status(400).json({ message: "Product not removed" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+}

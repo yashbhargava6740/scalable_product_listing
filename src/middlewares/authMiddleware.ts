@@ -1,8 +1,8 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 import JWTService from "../services/jwt";
-
 require("dotenv").config();
+
 export const protect: express.RequestHandler = asyncHandler(
   async (
     req: express.Request,
@@ -10,7 +10,6 @@ export const protect: express.RequestHandler = asyncHandler(
     next: express.NextFunction
   ) => {
     let token;
-    console.log(req.cookies);
     if (req.cookies.jwt) {
       try {
         token = req.cookies.jwt;
@@ -30,3 +29,4 @@ export const protect: express.RequestHandler = asyncHandler(
     }
   }
 );
+
