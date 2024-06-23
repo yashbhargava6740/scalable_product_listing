@@ -22,7 +22,6 @@ export const protect: express.RequestHandler = asyncHandler(
         throw new Error("Not authorized, token failed");
       }
     }
-
     if (!token) {
       res.status(500);
       throw new Error("Not authorized, no token");
