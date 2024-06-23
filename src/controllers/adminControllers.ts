@@ -2,8 +2,8 @@ import { prismaClient } from "../clients/db/PrismaClient";
 import { Request, Response } from "express";
 
 export const addProduct = async (req: Request, res: Response) => {
-  if(req.body.role !== "admin") {
-    res.status(401).json({message: "Not authorized"});
+  if (req.body.role !== "admin") {
+    res.status(401).json({ message: "Not authorized" });
   }
   const { name, price, description, owner, color } = req.body;
   try {
@@ -34,9 +34,9 @@ export const addProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const removeProduct = async(req:Request, res: Response) => {
-  if(req.body.role !== "admin") {
-    return res.status(401).json({message: "Not authorized"});
+export const removeProduct = async (req: Request, res: Response) => {
+  if (req.body.role !== "admin") {
+    return res.status(401).json({ message: "Not authorized" });
   }
   try {
     const { pid } = req.params;
@@ -45,7 +45,7 @@ export const removeProduct = async(req:Request, res: Response) => {
     }
     const dbProduct = await prismaClient.product.delete({
       where: {
-        id : parseInt(pid),
+        id: parseInt(pid),
       },
     });
     if (dbProduct) {
@@ -57,66 +57,70 @@ export const removeProduct = async(req:Request, res: Response) => {
     console.log(error);
     res.status(500).json({ message: "Server Error" });
   }
-}
+};
 
-export const updateProduct = async(req:Request, res: Response) => {
-  if(req.body.role !== "admin") {
-    res.status(401).json({message: "Not authorized"});
+export const updateProduct = async (req: Request, res: Response) => {
+  if (req.body.role !== "admin") {
+    res.status(401).json({ message: "Not authorized" });
   }
   try {
     const { pid, name, price, description, color } = req.body;
     console.log(req.body);
     const dbProduct = await prismaClient.product.update({
       where: {
-        id: parseInt(pid)
-      }, 
+        id: parseInt(pid),
+      },
       data: {
         title: name,
         price: parseFloat(price),
         description,
         color,
-      }
+      },
     });
-    if(!dbProduct) {
-      res.status(400).json({message: "Product not updated"});
+    if (!dbProduct) {
+      res.status(400).json({ message: "Product not updated" });
     }
     res.status(200).json(dbProduct);
-  } catch(error) {
-    res.status(500).json({message:error});
-  } 
-}
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
 
-export const getProducts = async(req:Request, res: Response) => {
-  if(req.body.role !== "admin") {
-    res.status(401).json({message: "Not authorized"});
+export const getProducts = async (req: Request, res: Response) => {
+  if (req.body.role !== "admin") {
+    res.status(401).json({ message: "Not authorized" });
   }
   try {
-    const products = await prismaClient.product.findMany();
-    if(!products) {
-      res.status(400).json({message: "Products not found"});
+    const products = await prismaClient.product.findMany({
+      where: {
+        ownerId: req.body.id,
+      }
+    });
+    if (!products) {
+      res.status(400).json({ message: "Products not found" });
     }
     res.status(200).json(products);
-  } catch(error) {
-    res.status(500).json({message:error});
-  } 
-}
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
 
-export const getProduct = async(req:Request, res: Response) => {
-  if(req.body.role !== "admin") {
-    res.status(401).json({message: "Not authorized"});
+export const getProduct = async (req: Request, res: Response) => {
+  if (req.body.role !== "admin") {
+    res.status(401).json({ message: "Not authorized" });
   }
   try {
     const { pid } = req.params;
     const product = await prismaClient.product.findUnique({
       where: {
-        id: parseInt(pid)
-      }
+        id: parseInt(pid),
+      },
     });
-    if(!product) {
-      res.status(400).json({message: "Product not found"});
+    if (!product) {
+      res.status(400).json({ message: "Product not found" });
     }
     res.status(200).json(product);
-  } catch(error) {
-    res.status(500).json({message:error});
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
-}
+};
