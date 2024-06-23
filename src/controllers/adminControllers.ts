@@ -91,7 +91,7 @@ export const getProducts = async(req:Request, res: Response) => {
     res.status(401).json({message: "Not authorized"});
   }
   try {
-    const products = await prismaClient.product.findMany();
+    const products = await prismaClient.product.findMany({where: {ownerId: req.body.id}});
     if(!products) {
       res.status(400).json({message: "Products not found"});
     }
