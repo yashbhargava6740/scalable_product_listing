@@ -1,10 +1,10 @@
 import express from 'express';
-import { addProduct, removeProduct } from '../controllers/adminControllers';
+import { addProduct, removeProduct, updateProduct, getProduct, getProducts } from '../controllers/adminControllers';
 import { protect } from '../middlewares/authMiddleware';
 const router = express.Router();
 router.route('/addProduct').post(protect,addProduct);
-router.route('/removeProduct/:id').delete(protect,removeProduct);
-// router.route('/updateProduct').patch(protect,updateProduct);
-// router.route('/getProducts').get(protect,getProducts);
-// router.route('/getProduct/:id').get(protect,getProduct);
+router.route('/removeProduct/:pid').delete(protect,removeProduct);
+router.route('/updateProduct').patch(protect,updateProduct);
+router.route('/getProducts').get(protect,getProducts);
+router.route('/getProduct/:pid').get(protect,getProduct);
 module.exports = router;
